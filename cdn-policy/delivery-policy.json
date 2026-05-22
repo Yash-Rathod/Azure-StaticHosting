@@ -1,0 +1,44 @@
+{
+    "_comment": "Reference doc. Rules applied via: az cdn endpoint rule add (see deploy.ps1 Phase 4).",
+    "rules": [
+        {
+            "name": "HTMLCache",
+            "order": 1,
+            "description": "Cache HTML for 1 hour. Short TTL because content changes with updates.",
+            "matchCondition": {
+                "variable": "UrlFileExtension",
+                "operator": "Equal",
+                "matchValues": [
+                    "html"
+                ]
+            },
+            "action": {
+                "name": "CacheExpiration",
+                "cacheBehavior": "Override",
+                "cacheDuration": "0:1:0:0"
+            }
+        },
+        {
+            "name": "AssetCache",
+            "order": 2,
+            "description": "Cache CSS/JS/images for 7 days. Long TTL safe because assets change rarely.",
+            "matchCondition": {
+                "variable": "UrlFileExtension",
+                "operator": "Equal",
+                "matchValues": [
+                    "css",
+                    "js",
+                    "svg",
+                    "png",
+                    "jpg",
+                    "ico"
+                ]
+            },
+            "action": {
+                "name": "CacheExpiration",
+                "cacheBehavior": "Override",
+                "cacheDuration": "7:0:0:0"
+            }
+        }
+    ]
+}
